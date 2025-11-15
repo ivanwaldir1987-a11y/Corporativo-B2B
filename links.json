@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Nombre visible para el agente",
+    "url": "https://... (url válida a Drive/Dropbox/OneDrive/u otro)",
+    "note": "opcional: texto corto que aparece debajo"
+  },
+  {
+    "title": "Otro documento (ej: ficha técnica)",
+    "url": "https://...",
+    "note": "opcional"
+  }
+]

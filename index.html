@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manual Corporativo – Clientes Medianas | Tigo Guatemala</title>
+  <style>
+    :root{
+      --azul:#003a8c; --azul-osc:#001e59; --celeste:#00a0df; --fondo:#0b1120;
+      --panel:#0e1730; --borde:#23314f; --texto:#e6eef7; --muted:#95a4bf;
+      --radius:14px; --shadow:0 12px 30px rgba(0,0,0,.35);
+      --accent:#00a0df;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;color:var(--texto);
+      background:linear-gradient(180deg,var(--azul-osc),var(--fondo));padding:18px;}
+    .layout{display:grid;grid-template-columns:320px 1fr;gap:18px;max-width:1400px;margin:0 auto}
+    @media(max-width:900px){.layout{grid-template-columns:1fr} .sidebar{position:relative}}
+    .sidebar{background:linear-gradient(180deg,var(--panel),#061028);border-radius:12px;padding:14px;border:1px solid #23314f;position:sticky;top:18px;height:fit-content}
+    .sidebar h3{margin:6px 0 12px 0;color:var(--celeste)}
+    .side-list{list-style:none;padding:0;margin:0}
+    .side-list li{background:#0b1b36;padding:10px;border-radius:10px;margin-bottom:8px;border:1px solid #ffffff10}
+    .side-list a{color:var(--texto);text-decoration:none;font-weight:600}
+    .main{background:linear-gradient(180deg,#07102a,#071225);border-radius:12px;padding:18px;border:1px solid #23314f}
+    h1{margin:0 0 6px 0}
+    .muted{color:var(--muted)}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .tab{background:#0b1b36;padding:8px 12px;border-radius:8px;cursor:pointer;border:1px solid #23314f}
+    .tab.active{outline:2px solid var(--celeste)}
+    .panel{margin-top:12px;background:#0b1228;padding:12px;border-radius:10px;border:1px solid #23314f}
+    .item{margin-bottom:10px;padding:10px;border-radius:8px;background:#071b34;border:1px solid #1e3354}
+    .item a{color:var(--celeste);text-decoration:none}
+    .ext{font-size:12px;color:var(--muted)}
+    .btn{background:linear-gradient(180deg,#0e2a4a,#082033);padding:8px 10px;border-radius:8px;border:1px solid #ffffff12;color:var(--texto);cursor:pointer;text-decoration:none;display:inline-block}
+    footer{margin-top:16px;text-align:center;color:var(--muted);font-size:13px}
+    input, select{width:100%; background:#0f1b36;color:var(--texto);border:1px solid #2a3b63;border-radius:8px;padding:8px 10px}
+    hr.soft{border-color:#1e293b}
+
+    /* LOCK PANTALLA */
+    #lockOverlay{
+      position:fixed; inset:0; background:rgba(2,6,20,0.95); z-index:9999;
+      display:flex; align-items:center; justify-content:center;
+    }
+    #lockCard{
+      background:linear-gradient(180deg,#07102a,#061225); padding:22px; border-radius:12px; border:1px solid #23314f;
+      width:360px; color:var(--texto); text-align:center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔐 BLOQUEO CON CONTRASEÑA -->
+  <div id="lockOverlay">
+    <div id="lockCard">
+      <h2 style="color:var(--accent); margin-bottom:8px;">Acceso restringido</h2>
+      <p class="muted">Ingrese la contraseña para continuar</p>
+      <input id="lockInput" type="password" placeholder="Contraseña" />
+      <button id="lockBtn" class="btn" style="margin-top:12px;">Ingresar</button>
+      <div id="lockError" style="display:none; color:#ff6b6b; margin-top:8px;">Contraseña incorrecta</div>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!---------------------- SIDEBAR ---------------------->
+    <aside class="sidebar">
+
+      <h3>🔗 Enlaces rápidos</h3>
+      <ul class="side-list">
+        <li><a href="https://integrations.tigo.com.gt/horus-client/profile/telefonos/comparar" target="_blank">Horus • Comparador</a></li>
+        <li><a href="https://www.tigo.com.gt/medianas" target="_blank">Tigo Medianas</a></li>
+      </ul>
+
+      <hr class="soft" />
+
+      <!-- ☁️ ENLACES DESDE LA NUBE (SOLO JSON) -->
+      <h3>☁️ Enlaces desde la nube</h3>
+      <p class="muted" style="font-size:0.9em;">
+        Estos documentos se cargan automáticamente desde <strong>links.json</strong>.
+      </p>
+
+      <!-- LISTA (rellenada por JSON) -->
+      <ul id="cloudList" style="list-style:none; padding:0; margin-top:12px;"></ul>
+
+    </aside>
+
+    <!---------------------- MAIN ---------------------->
+    <main class="main">
+
+      <header>
+        <h1>Manual Corporativo – Clientes Medianas</h1>
+        <div class="muted">Resumen de soluciones y beneficios.</div>
+      </header>
+
+      <section class="panel">
+        <div class="tabs" id="tabs">
+          <div class="tab active" data-tab="cloud">Cloud</div>
+          <div class="tab" data-tab="conectividad">Conectividad</div>
+          <div class="tab" data-tab="ciber">Ciberseguridad</div>
+          <div class="tab" data-tab="voz">Voz y Datos</div>
+          <div class="tab" data-tab="avanzadas">Avanzadas</div>
+        </div>
+
+        <!-- PANELES (SIN CAMBIOS) -->
+        <div class="tab-panel" id="cloud" style="display:block; margin-top:12px">
+          <h3>Cloud – Resumen</h3>
+          <div class="item"><strong>Cloud 360</strong> — <a class="btn" href="https://www.tigo.com.gt/medianas/cloud/cloud-360" target="_blank">Ver</a></div>
+          <div class="item"><strong>Teams Phone</strong> — <a class="btn" href="https://www.tigo.com.gt/medianas/cloud/microsoft-teams-phone-system" target="_blank">Ver</a></div>
+          <div class="item"><strong>Webex Calling</strong> — <a class="btn" href="https://www.tigo.com.gt/medianas/cloud/webex-calling" target="_blank">Ver</a></div>
+          <div class="item"><strong>Cloud Azure</strong> — <a class="btn" href="https://www.tigo.com.gt/medianas/cloud/cloud-azure" target="_blank">Ver</a></div>
+        </div>
+
+        <div class="tab-panel" id="conectividad" style="display:none; margin-top:12px">
+          <h3>Conectividad – Resumen</h3>
+          <div class="item"><strong>Fibertec</strong> — <a class="btn" href="https://www.tigo.com.gt/medianas/conectividad/fibertec" target="_blank">Ver</a></div>
+        </div>
+
+        <div class="tab-panel" id="ciber" style="display:none; margin-top:12px">
+          <h3>Ciberseguridad – Resumen</h3>
+          <div class="item"><strong>FWaaS</strong> — <a class="btn" href="https://www.tigo.com.gt/medianas/ciberseguridad/fwaas" target="_blank">Ver</a></div>
+        </div>
+
+        <div class="tab-panel" id="voz" style="display:none; margin-top:12px">
+          <h3>Voz y Datos – Resumen</h3>
+          <div class="item"><strong>Planes móviles</strong> — <a class="btn" href="https://www.tigo.com.gt/medianas/voz-y-datos/planes-empresariales" target="_blank">Ver</a></div>
+        </div>
+
+        <div class="tab-panel" id="avanzadas" style="display:none; margin-top:12px">
+          <h3>Avanzadas – Resumen</h3>
+          <div class="item"><strong>Chat4Business</strong> — <a class="btn" href="https://www.tigo.com.gt/medianas/avanzadas/chat4business" target="_blank">Ver</a></div>
+        </div>
+
+      </section>
+
+      <footer>Información interna — Tigo Guatemala</footer>
+
+    </main>
+
+  </div>
+
+  <!------------------- SCRIPTS ------------------->
+
+  <!-- Tabs -->
+  <script>
+    document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',e=>{
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      e.target.classList.add('active');
+      const id=e.target.dataset.tab;
+      document.querySelectorAll('.tab-panel').forEach(p=>p.style.display=p.id===id?'block':'none');
+    }));
+  </script>
+
+  <!-- Cargar enlaces desde links.json -->
+  <script>
+    function addCloudLink(title, url){
+      const ul=document.getElementById("cloudList");
+      const li=document.createElement("li");
+      const safeTitle=title.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+      li.innerHTML=`<a href="${url}" target="_blank" rel="noopener">${safeTitle}</a>`;
+      ul.appendChild(li);
+    }
+
+    document.addEventListener("DOMContentLoaded", ()=>{
+      fetch("links.json?ts="+Date.now())
+        .then(r=>r.ok?r.json():[])
+        .then(list=>{
+          if(Array.isArray(list)){
+            list.forEach(item=>{
+              if(item.url){
+                addCloudLink(item.title || item.url, item.url);
+              }
+            });
+          }
+        });
+    });
+  </script>
+
+  <!-- Contraseña -->
+  <script>
+    (function(){
+      const KEY="manual_unlock_v1";
+      const PASS="Conecta2025";
+      const overlay=document.getElementById("lockOverlay");
+      const input=document.getElementById("lockInput");
+      const btn=document.getElementById("lockBtn");
+      const err=document.getElementById("lockError");
+
+      if(sessionStorage.getItem(KEY)==="1"){
+        overlay.style.display="none";
+      }
+
+      function unlock(){
+        if(input.value.trim()===PASS){
+          sessionStorage.setItem(KEY,"1");
+          overlay.style.display="none";
+        } else err.style.display="block";
+      }
+
+      btn.onclick=unlock;
+      input.onkeydown=e=>{if(e.key==="Enter")unlock()};
+    })();
+  </script>
+
+</body>
+</html>
